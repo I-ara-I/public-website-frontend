@@ -6,18 +6,18 @@
         :rules="rules"
         hide-details="auto"
         v-model="input.value"
+        @keyup="changeResults"
       >
       </v-text-field>
     </v-col>
-    <v-col class="col-4 col-md-3 col-lg-4 col-xl-4">
+    <v-col v-if="this.units" class="col-4 col-md-3 col-lg-4 col-xl-4">
       <v-select
-        v-if="input.name !== 'specificWeight'"
-        v-model="selected"
-        :items="input.units"
-        item-text="label"
+        :items="units"
+        :label="unitLabel"
+        item-text="name"
         item-value="unit"
-        label="Einheit"
-        return-object
+        v-model="input.unit"
+        @change="changeResults"
       ></v-select>
     </v-col>
   </v-row>
@@ -26,10 +26,10 @@
 <script>
 export default {
   name: "Input",
-  props: ["input"],
+  props: ["name", "valueLabel", "unitLabel", "units", "required"],
   data() {
     return {
-      selected: {},
+      input: { value: "", unit: "" },
       rules: [
         value =>
           this.checkValueIsNumber(value) || "Bitte gib eine gültig Zahl ein!",
@@ -39,10 +39,10 @@ export default {
   },
   computed: {
     inputLabel: function() {
-      if (this.input.required === true) {
-        return `${this.input.label} (Pflichtfeld)`;
+      if (this.required === true) {
+        return `${this.valueLabel} (Pflichtfeld)`;
       }
-      return this.input.label;
+      return this.valueLabel;
     }
   },
   methods: {
@@ -56,22 +56,22 @@ export default {
       return false;
     },
     checkInputIsRequired: function(value) {
-      if (this.input.required === true && !value) {
+      if (this.required === true && !value) {
         return false;
       }
       return true;
+    },
+    changeResults: function() {
+      this.$emit("getInputs", {
+        name: this.name,
+        value: this.input.value,
+        unit: this.input.unit
+      });
     }
   },
-  updated() {
-    this.input.selectedUnit = this.selected.unit;
-  },
   mounted() {
-    if (this.input.units) {
-      this.selected = {
-        unit: this.input.units[0].unit,
-        label: this.input.units[0].label
-      };
-      this.input.selectedUnit = this.input.units[0].unit;
+    if (this.units) {
+      this.input.unit = this.units[0].unit;
     }
   }
 };

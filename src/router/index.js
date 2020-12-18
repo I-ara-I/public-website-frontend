@@ -18,6 +18,12 @@ const routes = [
     meta: { title: "Spezifikationen" },
   },
   {
+    path: "/packaging/area",
+    name: "Area",
+    component: () => import(/* webpackChunkName: "specification" */ "../views/Area.vue"),
+    meta: { title: "Flächen" },
+  },
+  {
     path: "/impressum",
     name: "Impressum",
     component: () => import(/* webpackChunkName: "imprint" */ "../views/provider/Imprint.vue"),

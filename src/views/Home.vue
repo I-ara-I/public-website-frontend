@@ -1,40 +1,44 @@
 <template>
   <v-row justify="space-around">
-    <v-col class="col-11 col-md-6 col-lg-4 col-xl-3">
-      <v-card>
-        <v-img src="../assets/img/calculator.jpg" alt="calculator"></v-img>
-        <v-divider></v-divider>
-        <v-card-title class="d-flex justify-center">
-          Spezifikationsrechner
-        </v-card-title>
-
-        <v-card-text class="text-center">
-          Hiermit kannst du das Gewicht, die Fläche, das Volumen und den Preis
-          von verschiedenen Verpackungsmaterialien berechnen.</v-card-text
-        >
-
-        <v-card-actions class="d-flex justify-center">
-          <v-btn
-            elevation="5"
-            depressed
-            color="primary"
-            to="/packaging/specification"
-            class="mb-5"
-          >
-            zum Rechner
-          </v-btn></v-card-actions
-        ></v-card
-      >
-    </v-col>
+    <OverviewCard
+      v-for="card in cards"
+      :key="card.title"
+      :img="card.img"
+      :alt="card.alt"
+      :title="card.title"
+      :description="card.description"
+      :button="card.button"
+    />
   </v-row>
 </template>
 
 <script>
+import OverviewCard from "../components/home/OverviewCard.vue";
 export default {
   name: "Home",
+  components: { OverviewCard },
   data() {
-    return {};
-  },
+    return {
+      cards: [
+        {
+          img: "assets/img/calculator.jpg",
+          alt: "calculator",
+          title: "Spezifikationsrechner",
+          description:
+            "Hiermit kannst du das Gewicht, die Fläche, das Volumen und den Preis von verschiedenen Verpackungsmaterialien berechnen.",
+          button: "Spezifikationsrechner"
+        },
+        {
+          img: "assets/img/calculator.jpg",
+          alt: "calculator",
+          title: "Stellplatzrechner",
+          description:
+            "Hiermit kannst du berechnen lassen wie oft ein Packstück auf eine Stellfläche passt",
+          button: "Stellflächenrechner"
+        }
+      ]
+    };
+  }
 };
 </script>
 

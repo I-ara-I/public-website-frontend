@@ -123,32 +123,36 @@ export default {
     linksHeader: [
       {
         name: "Home",
-        label: "Übersicht",
+        label: "Übersicht"
       },
       {
         name: "Specification",
-        label: "Spezifikationsrechner",
+        label: "Spezifikationsrechner"
       },
+      {
+        name: "Area",
+        label: "Stellpaltzrechner"
+      }
     ],
     linksFooter: [
       {
         name: "Impressum",
-        label: "Impressum",
+        label: "Impressum"
       },
       {
         name: "Datenschutz",
-        label: "Datenschutz",
-      },
+        label: "Datenschutz"
+      }
     ],
     drawer: false,
     author: process.env.VUE_APP_AUTHOR,
     headerTitle: process.env.VUE_APP_HEADER_TITLE,
-    tld: process.env.VUE_APP_TLD,
-  }),
+    tld: process.env.VUE_APP_TLD
+  })
 };
 </script>
 
-<style>
+<style >
 .animate__animated.animate__slideInLeft,
 .animate__animated.animate__slideOutRight {
   animation-duration: 300ms;
@@ -156,5 +160,21 @@ export default {
 
 a {
   text-decoration: none;
+}
+
+.fade-leave,
+.fade-enter-to {
+  max-height: 6rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 1s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  max-height: 0rem;
+  opacity: 0;
 }
 </style>

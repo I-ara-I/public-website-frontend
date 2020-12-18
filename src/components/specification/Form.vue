@@ -21,19 +21,22 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col v-if="material" class="col-8 col-md-6 col-lg-8"
-          ><v-select
-            v-model="shape"
-            :items="shapeSelection"
-            item-text="label"
-            item-value="shape"
-            :label="labelForShape"
-            :disabled="isMaterialSet"
-          ></v-select
+        <v-col v-if="material" class="col-8 col-md-6 col-lg-8">
+          <transition name="fade">
+            <v-select
+              v-model="shape"
+              :items="shapeSelection"
+              item-text="label"
+              item-value="shape"
+              :label="labelForShape"
+              :disabled="isMaterialSet"
+            ></v-select></transition
         ></v-col>
       </v-row>
       <v-form v-model="isFormValid">
-        <Input v-for="input in getInputs" :key="input.name" :input="input" />
+        <transition-group name="fade">
+          <Input v-for="input in getInputs" :key="input.name" :input="input"
+        /></transition-group>
       </v-form>
       <v-row>
         <v-col class="d-flex justify-center">
@@ -68,20 +71,20 @@ export default {
       material: "",
       shape: "",
       isFormValid: false,
-      loading: false,
+      loading: false
     };
   },
   computed: {
-    materialSelection: function () {
+    materialSelection: function() {
       return this.$store.getters.specificationMaterials;
     },
-    shapeSelection: function () {
+    shapeSelection: function() {
       return this.$store.getters.specificationShapes;
     },
-    isMaterialSet: function () {
+    isMaterialSet: function() {
       return this.material ? false : true;
     },
-    getInputs: function () {
+    getInputs: function() {
       if (this.shape !== "" && this.material !== "") {
         let inputs = [];
         const shape = this.$store.getters.specificationShapeInputs[this.shape];
@@ -95,7 +98,7 @@ export default {
         return [];
       }
     },
-    labelForMaterial: function () {
+    labelForMaterial: function() {
       if (this.material == "") {
         return "Bitte wähle ein Material aus";
       } else {
@@ -103,13 +106,13 @@ export default {
       }
     },
 
-    labelForShape: function () {
+    labelForShape: function() {
       if (!this.shape) {
         return "Bitte wähle eine Form aus";
       }
       return "Formauswahl";
     },
-    skeleton: function () {
+    skeleton: function() {
       let materials = this.materialSelection.length;
       let shapes = this.shapeSelection.length;
 
@@ -118,16 +121,16 @@ export default {
       } else {
         return true;
       }
-    },
+    }
   },
   methods: {
-    getResults: function () {
+    getResults: function() {
       this.loading = true;
 
       const values = {
         material: this.material,
         shape: this.shape,
-        inputs: this.getInputs,
+        inputs: this.getInputs
       };
 
       const calculateSpecs = async () => {
@@ -138,18 +141,18 @@ export default {
         return value;
       };
 
-      calculateSpecs().then((response) => {
+      calculateSpecs().then(response => {
         this.loading = !response;
       });
-    },
+    }
   },
   watch: {
-    material: function () {
+    material: function() {
       this.$store.dispatch("setSpecificationEmptyResults");
     },
-    shape: function () {
+    shape: function() {
       this.$store.dispatch("setSpecificationEmptyResults");
-    },
+    }
   },
   created() {
     let materials = this.$store.getters.specificationMaterials;
@@ -166,7 +169,7 @@ export default {
     if (inputs.length == 0) {
       this.$store.dispatch("loadSpecificationInputs");
     }
-  },
+  }
 };
 </script>
 
